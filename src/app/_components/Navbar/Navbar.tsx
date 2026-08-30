@@ -193,8 +193,8 @@ export default function Navbar({ cartCount = 0, wishlistCount = 0  ,  categories
               </span>
             </Link>
 
-            {/* Wishlist */}
-            <Link href="/wishlist" className="relative hidden sm:block" aria-label="Wishlist">
+            {/* Wishlist - now visible on all breakpoints, same as Cart */}
+            <Link href="/wishlist" className="relative" aria-label="Wishlist">
               <Heart className="h-5 w-5 text-gray-700 transition-colors hover:text-green-600" />
               {wishlistCount > 0 && (
                 <Badge className="absolute -right-2 -top-2 h-4 min-w-4 justify-center rounded-full bg-green-600 p-0 text-[10px]">
@@ -211,6 +211,8 @@ export default function Navbar({ cartCount = 0, wishlistCount = 0  ,  categories
                   {numberOfCartItems}
                 </Badge>}
             </Link>
+
+            
 
             {/* Profile - desktop only now; mobile identity/logout lives at the top of the sheet instead */}
             {isUserAuthenticated ? (
@@ -301,6 +303,20 @@ export default function Navbar({ cartCount = 0, wishlistCount = 0  ,  categories
                     </Link>
                     <Link href="/orders" className="rounded-md px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
                       Orders
+                    </Link>
+                    <Link
+                      href="/wishlist"
+                      className="flex items-center justify-between rounded-md px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Heart className="h-4 w-4" />
+                        Wishlist
+                      </span>
+                      {wishlistCount > 0 && (
+                        <Badge className="h-4 min-w-4 justify-center rounded-full bg-green-600 p-0 text-[10px]">
+                          {wishlistCount}
+                        </Badge>
+                      )}
                     </Link>
                   </nav>
 
