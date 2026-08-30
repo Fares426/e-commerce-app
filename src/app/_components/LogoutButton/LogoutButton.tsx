@@ -9,6 +9,7 @@ export default function LogoutButton() {
             redirect:false
         })
         router.push('/login')
+        router.refresh()
     }
   return (
     <span className="flex items-center gap-1.5 transition-colors hover:text-green-600 cursor-pointer" onClick={handleLogOut}> <UserPlus className="h-3.5 w-3.5" />Sign out</span>
