@@ -282,7 +282,7 @@ export async function createCashOrder(cartId: string, shippingAddress: ShippingA
   return res.ok;
 }
 
-export async function createCheckoutSession(cartId: string, shippingAddress: ShippingAddress, successUrl = 'http://localhost:3000'): Promise<string | false> {
+export async function createCheckoutSession(cartId: string, shippingAddress: ShippingAddress, successUrl = `${process.env.NEXTAUTH_URL}/allorders`): Promise<string | false> {
   const token = await decodeToken();
   if (!token) return false;
 
