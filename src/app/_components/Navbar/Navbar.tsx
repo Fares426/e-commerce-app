@@ -37,28 +37,6 @@ import MobileLogoutButton from "../MobileLogoutButton/MobileLogoutButton"
 import {useCart } from "@/app/_providers/cartContextProvider"
 import { TOP_BAR_HEIGHT } from "../TopBar/TopBar"
 import { CartContextType, Category } from "@/api/services/types"
-const categories: { title: string; href: string }[] = [
-  {
-    title: "All Categories",
-    href: "/categories",
-  },
-  {
-    title: "Electronics",
-    href: "/categories",
-  },
-  {
-    title: "Women's Fashion",
-    href: "/categories",
-  },
-  {
-    title: "Men's Fashion",
-    href: "/categories",
-  },
-  {
-    title: "Beauty & Health",
-    href: "/categories",
-  },
-]
 
 interface NavbarProps {
   cartCount?: number
@@ -234,16 +212,22 @@ export default function Navbar({ cartCount = 0, wishlistCount = 0  ,  categories
                 </Badge>}
             </Link>
 
-            {/* Sign in - desktop only */}
-            {isUserAuthenticated ? <Link href={'/profile'}><CgProfile className="h-5 w-5 text-gray-700 transition-colors hover:text-green-600" /></Link> : <Button
-              asChild
-              className="hidden items-center gap-2 rounded-full bg-green-600 px-5 hover:bg-green-700 lg:flex"
-            >
-              <Link href="/login">
-                <User className="h-4 w-4" />
-                Sign In
+            {/* Profile - desktop only now; mobile identity/logout lives at the top of the sheet instead */}
+            {isUserAuthenticated ? (
+              <Link href={'/profile'} className="hidden lg:block">
+                <CgProfile className="h-5 w-5 text-gray-700 transition-colors hover:text-green-600" />
               </Link>
-            </Button>}
+            ) : (
+              <Button
+                asChild
+                className="hidden items-center gap-2 rounded-full bg-green-600 px-5 hover:bg-green-700 lg:flex"
+              >
+                <Link href="/login">
+                  <User className="h-4 w-4" />
+                  Sign In
+                </Link>
+              </Button>
+            )}
 
             {/* Mobile menu trigger */}
             <Sheet>
@@ -265,6 +249,37 @@ export default function Navbar({ cartCount = 0, wishlistCount = 0  ,  categories
                 </SheetHeader>
 
                 <div className="mt-4 flex flex-col gap-6 px-4">
+                  {/* Account section - shown first so identity/logout is immediately visible on open */}
+                  {isUserAuthenticated ? (
+                    <div className="flex items-center justify-between rounded-2xl bg-gray-50 p-3">
+                      <Link href="/profile" className="flex items-center gap-3">
+                        <div className="rounded-full bg-white p-2 shadow-sm">
+                          <CgProfile className="h-5 w-5 text-gray-700" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-semibold text-gray-900">{userName}</span>
+                          <span className="text-xs text-gray-500">View profile</span>
+                        </div>
+                      </Link>
+                      <MobileLogoutButton />
+                    </div>
+                  ) : (
+                    <div className="flex gap-2 rounded-2xl bg-gray-50 p-3">
+                      <Button asChild className="flex-1 rounded-full bg-green-600 hover:bg-green-700">
+                        <Link href="/login">
+                          <User className="h-4 w-4" />
+                          Sign In
+                        </Link>
+                      </Button>
+                      <Button asChild variant="outline" className="flex-1 rounded-full">
+                        <Link href="/register">
+                          <UserPlus className="h-4 w-4" />
+                          Sign Up
+                        </Link>
+                      </Button>
+                    </div>
+                  )}
+
                   <div className="relative">
                     <Input
                       type="search"
@@ -310,35 +325,6 @@ export default function Navbar({ cartCount = 0, wishlistCount = 0  ,  categories
   </div>
 </div>
 
-
-                  {isUserAuthenticated ? <>
-                  <div>
-                    <div className="flex  items-center">
-                      <div className="bg-slate-200 p-2 rounded-full">
-                      <CgProfile className="h-5 w-5 text-gray-700 transition-colors "/>
-                      </div>
-                      <p className="ms-5">{userName}</p>
-                    </div>
-                  </div>
-                  <div>
-                      <MobileLogoutButton/>
-                    
-                  </div>
-                  </> : <div className="flex gap-2">
-                    <Button asChild className="flex-1 rounded-full bg-green-600 hover:bg-green-700">
-                      <Link href="/login">
-                        <User className="h-4 w-4" />
-                        Sign In
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline" className="flex-1 rounded-full">
-                      <Link href="/register">
-                        <UserPlus className="h-4 w-4" />
-                        Sign Up
-                      </Link>
-                    </Button>
-                  </div>}
-
                   <Link href="/support" className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-gray-50">
                     <span className="flex h-8 w-8 items-center justify-center rounded-full bg-green-50 text-green-600">
                       <Headphones className="h-4 w-4" />
@@ -348,8 +334,6 @@ export default function Navbar({ cartCount = 0, wishlistCount = 0  ,  categories
                       <span className="text-xs font-semibold text-gray-900">24/7 Help</span>
                     </span>
                   </Link>
-
-                  
 
                   <div className="flex flex-col gap-2 border-t border-gray-100 pt-4 text-xs text-gray-500">
                     <a href="tel:+18001234567" className="flex items-center gap-1.5">
