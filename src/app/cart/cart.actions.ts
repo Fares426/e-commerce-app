@@ -26,10 +26,11 @@ export async function AddToCart(productId:string){
       }
     } catch (error) {
       console.log("error when adding product to cart ", error);
+      return false
     }
    }
    else {
-    return new Error("Session Ended. Login Again")
+    return false
    }
     
 }
@@ -56,11 +57,11 @@ export async function handleDeleteProduct(productId:string){
       }
   } catch (error) {
     console.log("err" , error);
-    
+    return null
   }
   }
   else {
-    return new Error("Session Ended Please Login Again")
+    return null
   }
 }
 export async function handleUpdateCartCount(productId:string , count:number){
@@ -86,11 +87,11 @@ export async function handleUpdateCartCount(productId:string , count:number){
       }
     } catch (error) {
     console.log("err" , error);
-    
+    return null
   }
   }
   else {
-    return new Error("Session Ended Please Login Again")
+    return null
   }
 }
 
@@ -115,11 +116,11 @@ export async function handleClearCartItems(){
       }
     } catch (error) {
       console.log("err" , error);
-      
+      return null
     }
   }
   else {
-    return new Error("Session Ended Please Login Again")
+    return null
   }
 }
 export async function handleCashOrderAction(cartId:string , shippingAddressObject : CashOrder){
@@ -146,11 +147,11 @@ export async function handleCashOrderAction(cartId:string , shippingAddressObjec
       }
     } catch (error) {
     console.log("err" , error);
-    
+    return false
   }
   }
   else {
-    return new Error("Session Ended Please Login Again")
+    return false
   }
 }
 export async function handleOnlineOrderAction(cartId:string , shippingAddressObject : CashOrder){
@@ -177,10 +178,10 @@ export async function handleOnlineOrderAction(cartId:string , shippingAddressObj
       }
     } catch (error) {
     console.log("err" , error);
-    
+    return false
   }
   }
   else {
-    return new Error("Session Ended Please Login Again")
+    return false
   }
 }
