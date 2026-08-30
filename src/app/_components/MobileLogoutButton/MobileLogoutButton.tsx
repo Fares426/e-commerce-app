@@ -1,16 +1,14 @@
 'use client'
 
 import { signOut } from "next-auth/react"
-import { useRouter } from "next/navigation"
 import { PiSignOutBold } from "react-icons/pi"
 
 export default function MobileLogoutButton() {
-    const router = useRouter()
        async function handleLogOut(){
             await signOut({
                 redirect:false
             })
-            router.push('/login')
+            window.location.href = '/login'
         }
   return (
     <div onClick={handleLogOut} className="flex items-center">
