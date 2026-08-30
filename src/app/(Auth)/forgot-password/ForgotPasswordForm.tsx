@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 import { emailSchema, resetCodeSchema, newPasswordSchema } from './forgot-password.schemas';
-import { EmailStepType, ResetCodeStepType, NewPasswordStepType } from './forgot-password.types';
+import { EmailStepType, NewPasswordStepType } from './forgot-password.types';
 import { requestPasswordReset, confirmResetCode, submitNewPassword } from './forgot-password.actions';
 
 type Step = 'email' | 'code' | 'password';
@@ -19,16 +19,12 @@ export default function ForgotPasswordForm() {
   const router = useRouter();
   const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState('');
+  const [resetCode, setResetCode] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const emailForm = useForm<EmailStepType>({
     defaultValues: { email: '' },
     resolver: zodResolver(emailSchema),
-  });
-
-  const codeForm = useForm<ResetCodeStepType>({
-    defaultValues: { resetCode: '' },
-    resolver: zodResolver(resetCodeSchema),
   });
 
   const passwordForm = useForm<NewPasswordStepType>({
@@ -50,9 +46,18 @@ export default function ForgotPasswordForm() {
     }
   }
 
-  async function handleCodeSubmit(data: ResetCodeStepType) {
+  async function handleCodeSubmit() {
+    const validation = resetCodeSchema.safeParse({ resetCode });
+
+    if (!validation.success) {
+      toast.error(validation.error.issues[0]?.message ?? 'Enter the reset code', {
+        position: 'top-center',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
-    const res = await confirmResetCode(data.resetCode);
+    const res = await confirmResetCode(validation.data.resetCode);
     setIsSubmitting(false);
 
     if (res.ok) {
@@ -130,31 +135,31 @@ export default function ForgotPasswordForm() {
 
   if (step === 'code') {
     return (
-      <form onSubmit={codeForm.handleSubmit(handleCodeSubmit)} className="space-y-6">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          void handleCodeSubmit();
+        }}
+        className="space-y-6"
+      >
         <p className="text-sm text-gray-500">
           Enter the code we sent to <span className="font-medium text-gray-900">{email}</span>.
         </p>
 
-        <Controller
-          name="resetCode"
-          control={codeForm.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="resetCode" className="mb-2 text-sm font-medium text-gray-700">
-                Reset Code
-              </FieldLabel>
-              <Input
-                {...field}
-                id="resetCode"
-                aria-invalid={fieldState.invalid}
-                placeholder="Enter the code"
-                autoComplete="off"
-                className="h-12 rounded-xl border-gray-200 px-4 shadow-none focus-visible:ring-2 focus-visible:ring-green-500"
-              />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
+        <Field>
+          <FieldLabel htmlFor="resetCode" className="mb-2 text-sm font-medium text-gray-700">
+            Reset Code
+          </FieldLabel>
+          <Input
+            id="resetCode"
+            value={resetCode}
+            onChange={(event) => setResetCode(event.target.value)}
+            placeholder="Enter the code"
+            autoComplete="one-time-code"
+            inputMode="numeric"
+            className="h-12 rounded-xl border-gray-200 px-4 shadow-none focus-visible:ring-2 focus-visible:ring-green-500"
+          />
+        </Field>
 
         <Button
           type="submit"
