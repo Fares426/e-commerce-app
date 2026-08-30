@@ -158,7 +158,7 @@ export async function handleOnlineOrderAction(cartId:string , shippingAddressObj
   const token = await decodeToken()
   if(token){
     try {
-      const successUrl = `${process.env.NEXTAUTH_URL}/allorders`
+      const successUrl = process.env.NEXTAUTH_URL!
 
       const res = await fetch(`https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${encodeURIComponent(successUrl)}` , {
         method :'post',
