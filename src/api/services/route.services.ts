@@ -1,4 +1,4 @@
-import { decodeToken } from '@/app/utils';
+import { decodeSession, decodeToken } from '@/app/utils';
 import {
   Address,
   BrandProps,
@@ -239,27 +239,13 @@ export async function removeAddress(addressId: string): Promise<boolean> {
 
   return res.ok;
 }
-
 export async function getAllOrders(): Promise<Order[] | undefined> {
-  const token = await decodeToken();
-  if (!token) return undefined;
+  const session = await decodeSession();
+  if (!session) return undefined;
 
-  try {
-    const { decode } = await import('next-auth/jwt');
-    const decoded = await decode({
-      secret: process.env.NEXTAUTH_SECRET!,
-      token: token as string,
-    });
-
-    if (!decoded?.id) return undefined;
-
-    return fetchJson<Order[]>(`${BASE_URL}/orders/user/${decoded.id}`, {
-      headers: { token },
-    });
-  } catch (error) {
-    console.log('error decoding token', error);
-    return undefined;
-  }
+  return fetchJson<Order[]>(`${BASE_URL}/orders/user/${session.id}`, {
+    headers: { token: session.token },
+  });
 }
 
 export async function getSpecificOrder(orderId: string): Promise<Order | undefined> {
