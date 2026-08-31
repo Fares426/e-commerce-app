@@ -23,8 +23,9 @@ export default async function CategoriesSubCard() {
 
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6">
         {allCategories?.map((category) => (
-          <div
+          <Link
             key={category._id}
+            href={`/shop?category=${category._id}`}
             className="rounded-lg border cursor-pointer p-3 sm:p-4 text-center flex flex-col items-center justify-center gap-2 sm:gap-3 shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.1),0px_1px_3px_0px_rgba(0,0,0,0.1)] hover:border-green-500 hover:shadow-md transition-all"
           >
             <img
@@ -34,7 +35,7 @@ export default async function CategoriesSubCard() {
               loading="lazy"
             />
             <h3 className="text-xs sm:text-sm line-clamp-1">{category.name}</h3>
-          </div>
+          </Link>
         ))}
       </div>
 
