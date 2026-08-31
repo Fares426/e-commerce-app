@@ -1,31 +1,3 @@
-// import { FaArrowRightLong } from "react-icons/fa6";
-// import Link from "next/link"
-// import { getAllCategories } from "@/api/services/route.services";
-// export default async function CategoriesSubCard() {
-
-//     const allCategories = await getAllCategories()
-//   return (
-//     <div className="p-10 w-3/4 mx-auto">
-//         <div className="flex justify-between items-center">
-//             <h2 className="text-3xl mb-1.5">Shop By Category</h2>
-
-//             <Link className="flex items-center justify-between " href={'/category'}>View All Categories <span className="ms-3"><FaArrowRightLong /></span></Link>
-//         </div>
-
-
-//         <div className="grid grid-cols-5 gap-6 p-10 ">
-//             {allCategories?.map(category => <div className="rounded-lg border p-3 text-center flex-col gap-3 items-center justify-center shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.1),0px_1px_3px_0px_rgba(0,0,0,0.1)]" key={category._id}>
-//             <div className="text-center mb-5">
-//                 <img className="rounded-full mx-auto w-15 h-15" src={category.image} alt={category.name} />
-//             </div>
-//             <h3>{category.name}</h3>
-//         </div>)}
-//         </div>
-//     </div>
-//   )
-// }
-
-
 import { FaArrowRightLong } from "react-icons/fa6";
 import Link from "next/link";
 import { getAllCategories } from "@/api/services/route.services";
@@ -40,7 +12,7 @@ export default async function CategoriesSubCard() {
 
         <Link
           className="hidden sm:flex items-center text-sm sm:text-base text-green-600 hover:text-green-700 transition-colors shrink-0"
-          href="/category"
+          href="/categories"
         >
           View All Categories
           <span className="ms-2">

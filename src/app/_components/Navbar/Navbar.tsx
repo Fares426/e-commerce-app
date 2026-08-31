@@ -1,6 +1,7 @@
 "use client"
 import * as React from "react"
 import Link from "next/link"
+import { useRouter, useSearchParams } from "next/navigation"
 import {
   Search,
   Heart,
@@ -51,6 +52,12 @@ export default function Navbar({ cartCount = 0, wishlistCount = 0  ,  categories
   const userName = data?.user?.name
   const [isFixed, setIsFixed] = React.useState(false)
   const isUserAuthenticated = status === "authenticated"
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  // Keep the input in sync with the URL (e.g. back/forward nav, or landing on /shop?search=...)
+  const [searchQuery, setSearchQuery] = React.useState(searchParams.get("search") ?? "")
+  const [mobileSearchQuery, setMobileSearchQuery] = React.useState(searchParams.get("search") ?? "")
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -60,6 +67,26 @@ export default function Navbar({ cartCount = 0, wishlistCount = 0  ,  categories
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  const runSearch = (query: string) => {
+    const trimmed = query.trim()
+    if (!trimmed) return
+    router.push(`/shop?search=${encodeURIComponent(trimmed)}`)
+  }
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      runSearch(searchQuery)
+    }
+  }
+
+  const handleMobileSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      runSearch(mobileSearchQuery)
+    }
+  }
 
   return (
     <header className="w-full bg-white">     
