@@ -34,14 +34,14 @@ export default async function CategoriesSubCard() {
               alt={category.name}
               loading="lazy"
             />
-            <h3 className="text-xs sm:text-sm line-clamp-1">{category.name}</h3>
+            <h3 className="text-xs sm:text-sm line-clamp-1">{category.name}</h3>      
           </Link>
         ))}
       </div>
 
       <Link
         className="sm:hidden flex items-center justify-center text-sm text-green-600 mt-4"
-        href="/category"
+        href="/categories"
       >
         View All Categories
         <span className="ms-2">
