@@ -12,12 +12,14 @@ export default function WishlistButton({
   productId,
   className = '',
   compact = false,
+  initialIsSaved = false,
 }: {
   productId: string;
   className?: string;
   compact?: boolean;
+  initialIsSaved?: boolean;
 }) {
-  const [isSaved, setIsSaved] = useState(false);
+  const [isSaved, setIsSaved] = useState(initialIsSaved);
 
   async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();

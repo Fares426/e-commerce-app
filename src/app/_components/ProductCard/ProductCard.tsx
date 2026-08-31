@@ -2,8 +2,12 @@ import Image from "next/image";
 import AddToCartButton from "../AddToCartButton/AddToCartButton";
 import WishlistButton from "../WishlistButton/WishlistButton";
 import { ProductCardProps } from "./productCard.types";
+import { getWishlist } from "@/app/_actions/wishlist.actions";
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default async function ProductCard({ product }: ProductCardProps) {
+  const wishlistIds = await getWishlist();
+  const isInWishlist = wishlistIds.includes(product.id);
+
   return (
     <div className="group border rounded-xl overflow-hidden bg-white transition-shadow hover:shadow-lg">
       <div className="relative w-full aspect-3/4 bg-neutral-100">
@@ -54,7 +58,12 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="pt-2">
-          <WishlistButton productId={product.id} compact className="w-full" />
+          <WishlistButton
+            productId={product.id}
+            compact
+            className="w-full"
+            initialIsSaved={isInWishlist}
+          />
         </div>
       </div>
     </div>
