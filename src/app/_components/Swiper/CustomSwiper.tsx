@@ -41,9 +41,9 @@ export default function CustomSwiper({ slides }: { slides: Slide[] }) {
                 <Link href={"/shop"} className="bg-white text-green-600 cursor-pointer px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-lg font-medium hover:bg-neutral-100 transition-colors">
                   {slide.primaryBtn}
                 </Link>
-                <button className="border cursor-pointer border-white px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-lg hover:bg-white/10 transition-colors">
+                <Link href={'/shop'} className="border cursor-pointer border-white px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-lg hover:bg-white/10 transition-colors">
                   {slide.secondaryBtn}
-                </button>
+                </Link>
               </div>
             </div>
           </div>
